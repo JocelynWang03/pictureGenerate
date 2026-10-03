@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f5f0">
+  <title>立体九宫格 · 照片工作室</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./src/app.js"></script>
+</head>
+
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="立体九宫格照片工作室">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>FRAME<span class="brand-accent">LAB</span></span>
+      </div>
+      <span class="topbar-note">把一瞬间，变成立体的故事</span>
+      <span class="privacy-badge"><span aria-hidden="true">●</span> 照片仅在浏览器中处理</span>
+    </header>
+
+    <main class="workspace">
+      <aside class="editor-panel" aria-label="照片编辑工具">
+        <div class="intro">
+          <span class="eyebrow">PHOTO COLLAGE STUDIO</span>
+          <h1>立体九宫格</h1>
+          <p>九张照片铺成故事，一张人像跃出画面。</p>
+        </div>
+
+        <section class="editor-section" aria-labelledby="grid-heading">
+          <div class="section-heading">
+            <span class="step-number">01</span>
+            <div>
+              <h2 id="grid-heading">九宫格照片</h2>
+              <p>选择最多 9 张，可拖动或点选两格交换</p>
+            </div>
+            <span id="grid-count" class="count-pill">0 / 9</span>
+          </div>
+          <label class="upload-zone" for="grid-files">
+            <span class="upload-icon" aria-hidden="true">＋</span>
+            <span class="upload-title">选择九宫格照片</span>
+            <span class="upload-subtitle">一次选择 9 张，也可先选少量再逐格补齐</span>
+          </label>
+          <input id="grid-files" class="visually-hidden" type="file"
+            accept="image/jpeg,image/png,image/webp,image/avif,image/gif,image/bmp" multiple>
+          <ol id="slot-list" class="slot-list" aria-label="九宫格顺序"></ol>
+          <input id="slot-file" class="visually-hidden" type="file"
+            accept="image/jpeg,image/png,image/webp,image/avif,image/gif,image/bmp">
+        </section>
+
+        <section class="editor-section" aria-labelledby="portrait-heading">
+          <div class="section-heading">
+            <span class="step-number">02</span>
+            <div>
+              <h2 id="portrait-heading">主角照片</h2>
+              <p>自动抠出人物，叠在九宫格上方</p>
+            </div>
+          </div>
+          <label class="portrait-upload" for="portrait-file">
+            <span id="portrait-thumb" class="portrait-thumb" aria-hidden="true">✦</span>
+            <span class="portrait-copy"><strong id="portrait-name">选择一张人物照片</strong><small id="portrait-state">支持
+                JPG、PNG、WebP 等格式</small></span>
+            <span class="portrait-chevron" aria-hidden="true">›</span>
+          </label>
+          <input id="portrait-file" class="visually-hidden" type="file"
+            accept="image/jpeg,image/png,image/webp,image/avif,image/gif,image/bmp">
+          <button id="retry-cutout" class="text-button" type="button" hidden>重新尝试自动抠图</button>
+        </section>
+
+        <section class="editor-section controls-section" aria-labelledby="adjust-heading">
+          <div class="section-heading">
+            <span class="step-number">03</span>
+            <div>
+              <h2 id="adjust-heading">调整立体效果</h2>
+              <p>在画面上拖动人物，找到合适位置</p>
+            </div>
+          </div>
+          <div class="margin-control">
+            <div class="slider-row"><label for="margin-top">上边距</label><output id="margin-top-value"
+                for="margin-top">5%</output></div>
+            <input id="margin-top" type="range" min="0" max="15" value="5" aria-label="上边距">
+          </div>
+          <div class="margin-control">
+            <div class="slider-row"><label for="margin-right">右边距</label><output id="margin-right-value"
+                for="margin-right">5%</output></div>
+            <input id="margin-right" type="range" min="0" max="15" value="5" aria-label="右边距">
+          </div>
+          <div class="margin-control">
+            <div class="slider-row"><label for="margin-bottom">下边距</label><output id="margin-bottom-value"
+                for="margin-bottom">5%</output></div>
+            <input id="margin-bottom" type="range" min="0" max="15" value="5" aria-label="下边距">
+          </div>
+          <div class="margin-control">
+            <div class="slider-row"><label for="margin-left">左边距</label><output id="margin-left-value"
+                for="margin-left">5%</output></div>
+            <input id="margin-left" type="range" min="0" max="15" value="5" aria-label="左边距">
+          </div>
+          <div class="slider-row scale-row">
+            <label for="portrait-scale">人物大小</label><output id="scale-value" for="portrait-scale">75%</output>
+          </div>
+          <input id="portrait-scale" type="range" min="25" max="130" value="75" aria-label="人物大小">
+          <div class="slider-row shadow-row">
+            <label for="shadow-strength">立体阴影</label><output id="shadow-value" for="shadow-strength">70%</output>
+          </div>
+          <input id="shadow-strength" type="range" min="0" max="150" value="70" aria-label="立体阴影">
+          <button id="reset-position" class="text-button reset-button" type="button">重置人物位置</button>
+        </section>
+      </aside>
+
+      <section class="preview-panel" aria-labelledby="preview-heading">
+        <div class="preview-header">
+          <div><span class="eyebrow">LIVE PREVIEW</span>
+            <h2 id="preview-heading">作品预览</h2>
+          </div>
+          <span id="preview-status" class="preview-status">等待照片</span>
+        </div>
+        <div class="preview-stage">
+          <div class="preview-frame">
+            <canvas id="preview-canvas" width="1320" height="1320" tabindex="0"
+              aria-label="九宫格作品预览。可拖动人物，或使用方向键移动；按住 Shift 可加快移动"></canvas>
+          </div>
+          <p class="canvas-tip">✦ 抠图完成后，可拖动人物或用方向键调整位置</p>
+        </div>
+        <div class="export-panel">
+          <div class="export-copy"><strong>让故事跃出画面</strong><span id="completion-hint">上传九张底图和一张人物照片后即可导出</span></div>
+          <div class="export-actions">
+            <div class="export-text">
+              <div class="size-select-label">
+                九宫格尺寸
+              </div>
+              <div id="final-size" class="final-size" aria-live="polite">成品 2640 × 2640 像素</div>
+            </div>
+            <select id="export-size">
+              <option value="1600">1600 像素</option>
+              <option value="2400" selected>2400 像素</option>
+              <option value="3000">3000 像素</option>
+            </select>
+            <button id="export-png" class="export-button" type="button" disabled>导出 PNG</button>
+            <button id="export-jpg" class="export-button secondary" type="button" disabled>导出 JPG</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  </div>
+</body>
+
+</html>
