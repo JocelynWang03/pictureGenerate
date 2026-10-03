@@ -47,6 +47,13 @@ label:focus-within {
   border: 0
 }
 
+input[type="file"].visually-hidden {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0
+}
+
 .app-shell {
   min-height: 100vh
 }
@@ -771,6 +778,9 @@ select:focus-visible {
   .app-shell {
     display: flex;
     flex-direction: column;
+    position: fixed;
+    inset: 0;
+    width: 100%;
     min-height: 0;
     height: 100vh;
     height: 100dvh;
